@@ -11,13 +11,19 @@ export function BottomList() {
         <View style={styles.container}>
             <View style={styles.mainHeader}>
                 <View style={styles.products1}>
-                    <TouchableOpacity onPress={() => setTab(true)} style={styles.productsAndImage}>
-                        <Text>Pendentes</Text>
+                    <TouchableOpacity onPress={() => setTab(true)}     style={[
+                        styles.productsAndImage, 
+                        tab && styles.activeTab
+                        ]}>
+                        <Text style={tab && styles.activeTab}>Pendentes</Text>
                         <Image source={require("../../assets/images/wheel.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => setTab(false)} style={styles.productsAndImage}>
-                        <Text>Comprados</Text>
+                    <TouchableOpacity onPress={() => setTab(false)}     style={[
+                        styles.productsAndImage, 
+                        !tab && styles.activeTab
+                    ]}>
+                        <Text style={!tab && styles.activeTab}>Comprados</Text>
                         <Image source={require("../../assets/images/purchased.png")}/>
                     </TouchableOpacity>
                 </View>
@@ -86,7 +92,7 @@ export function BottomList() {
     )
 }
 
-const styles = StyleSheet.create({
+const styles: any = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#FFF",
@@ -140,5 +146,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingBottom: 10,
         paddingTop: 5
-    }
+    },
+    activeTab: {
+        color: "#828282"
+    },
 })
