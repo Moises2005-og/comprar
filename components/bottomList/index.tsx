@@ -1,6 +1,6 @@
 import { useProducts } from "@/hooks/useProducts";
 import { useState } from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
 export function BottomList() {
 
@@ -11,20 +11,15 @@ export function BottomList() {
         <View style={styles.container}>
             <View style={styles.mainHeader}>
                 <View style={styles.products1}>
-                    <View style={styles.productsAndImage}>
-                        <TouchableOpacity onPress={() => setTab(true)}>
-                            <Text>Pendentes</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setTab(true)} style={styles.productsAndImage}>
+                        <Text>Pendentes</Text>
                         <Image source={require("../../assets/images/wheel.png")}/>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.productsAndImage}>
-                        <TouchableOpacity onPress={() => setTab(false)}>
-                            <Text>Comprados</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setTab(false)} style={styles.productsAndImage}>
+                        <Text>Comprados</Text>
                         <Image source={require("../../assets/images/purchased.png")}/>
-                    </View>
-
+                    </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity onPress={deleteAll}>
@@ -34,55 +29,57 @@ export function BottomList() {
             </View>
             {
             tab ? (
-                <View style={styles.productList}>
-                    <View style={styles.borda}></View>
-                    {
-                        pendingProducts.length !== 0 ? (
-                            pendingProducts?.map((item: any) => (
-                                <View key={item} style={styles.pendingProductsContainer}>
-                                    <View style={{
-                                        flexDirection: "row",
-                                        gap: 10
-                                    }}>
-                                        <Image source={require("../../assets/images/wheel.png")}/>
-                                        <TouchableOpacity onPress={() => addPurchasedProducts(item)}>
+                <ScrollView>
+                    <View style={styles.productList}>
+                        <View style={styles.borda}></View>
+                        {
+                            pendingProducts.length !== 0 ? (
+                                pendingProducts?.map((item: any) => (
+                                    <View key={item} style={styles.pendingProductsContainer}>
+                                        <TouchableOpacity onPress={() => addPurchasedProducts(item)} style={{
+                                            flexDirection: "row",
+                                            gap: 10
+                                        }}>
+                                            <Image source={require("../../assets/images/wheel.png")}/>
                                             <Text style={styles.pendingProducts}>{item}</Text>
                                         </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => deletePendingProducts(item)}>
+                                            <Image source={require("../../assets/images/trash.png")}/>
+                                        </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity onPress={() => deletePendingProducts(item)}>
-                                        <Image source={require("../../assets/images/trash.png")}/>
-                                    </TouchableOpacity>
-                                </View>
-                            ))
-                        ):(
-                            <Text style={styles.noInfo}>Nenhum item aqui</Text>
-                        )
-                    }
-                </View>
+                                ))
+                            ):(
+                                <Text style={styles.noInfo}>Nenhum item aqui</Text>
+                            )
+                        }
+                    </View>
+                </ScrollView>
                 ):(
-                    <View style={styles.productList}>
-                    <View style={styles.borda}></View>
-                    {
-                        purchasedProducts.length !== 0 ? (
-                            purchasedProducts?.map((item: any) => (
-                                <View key={item} style={styles.pendingProductsContainer}>
-                                    <View style={{
-                                        flexDirection: "row",
-                                        gap: 10
-                                    }}>
-                                        <Image source={require("../../assets/images/wheel.png")}/>
-                                        <Text style={styles.pendingProducts}>{item}</Text>
+                    <ScrollView>
+                        <View style={styles.productList}>
+                        <View style={styles.borda}></View>
+                        {
+                            purchasedProducts.length !== 0 ? (
+                                purchasedProducts?.map((item: any) => (
+                                    <View key={item} style={styles.pendingProductsContainer}>
+                                        <View style={{
+                                            flexDirection: "row",
+                                            gap: 10
+                                        }}>
+                                            <Image source={require("../../assets/images/wheel.png")}/>
+                                            <Text style={styles.pendingProducts}>{item}</Text>
+                                        </View>
+                                        <TouchableOpacity>
+                                            <Image source={require("../../assets/images/purchased.png")}/>
+                                        </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity onPress={() => deletePurchasedProducts(item)}>
-                                        <Image source={require("../../assets/images/purchased.png")}/>
-                                    </TouchableOpacity>
-                                </View>
-                            ))
-                        ):(
-                            <Text style={styles.noInfo}>Nenhum item aqui</Text>
-                        )
-                    }
-                </View>
+                                ))
+                            ):(
+                                <Text style={styles.noInfo}>Nenhum item aqui</Text>
+                            )
+                        }
+                    </View>
+                    </ScrollView>
                 )
             }
         </View>
